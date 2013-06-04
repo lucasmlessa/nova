@@ -1829,7 +1829,7 @@ terminateApp:
 
 - (void)restoreListStateUsingPreferences {
 	//to be invoked after loading a notationcontroller
-	
+	NSLog(@"restoreListStateUsingPreferences");
 	NSString *searchString = [prefsController lastSearchString];
 	if ([searchString length])
 		[self searchForString:searchString];
@@ -2268,7 +2268,7 @@ terminateApp:
 }
 
 - (IBAction)toggleNVActivation:(id)sender {
-    
+
 	if ([NSApp isActive] && [window isMainWindow]&&[window isVisible]) {
         
 		SpaceSwitchingContext laterSpaceSwitchCtx;
@@ -2284,22 +2284,23 @@ terminateApp:
 		bzero(&spaceSwitchCtx, sizeof(SpaceSwitchingContext));
 		return;
 	}
-	[self bringFocusToControlField:sender];
+	[self bringFocusToWindow:sender];
 }
 
 - (void)focusControlField:(id)sender activate:(BOOL)shouldActivate{
-    if (IsLionOrLater) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"TextFinderShouldHide" object:sender];
-    }
 	if ([notesSubview isCollapsed]) {
 		[self toggleCollapse:self];
-	}else if (![self dualFieldIsVisible]){
-		
+	} else if (![self dualFieldIsVisible]) {
         [self setDualFieldIsVisible:YES];
 	}
-    
 	[field selectText:sender];
-    
+    [self focusWindow:sender activate:shouldActivate];
+}
+
+- (void)focusWindow:(id)sender activate:(BOOL)shouldActivate{
+    if (IsLionOrLater) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TextFinderShouldHide" object:sender];
+    }    
 	if (!shouldActivate) {
         [window makeKeyAndOrderFront:sender];
         [window makeMainWindow];
@@ -2317,14 +2318,15 @@ terminateApp:
 	}
 	[self setEmptyViewState:currentNote == nil];
     self.isEditing = NO;
-    
-    
 }
 
 - (IBAction)bringFocusToControlField:(id)sender {
 	//For ElasticThreads' fullscreen mode use this if/else otherwise uncomment the expand toolbar
-    
     [self focusControlField:sender activate:YES];
+}
+
+- (IBAction)bringFocusToWindow:(id)sender {
+    [self focusWindow:sender activate:YES];
 }
 
 

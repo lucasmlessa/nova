@@ -85,7 +85,7 @@ static id _sharedKeyComboPanel = nil;
 
 - (void)showSheetForHotkey:(PTHotKey*)hotKey forWindow:(NSWindow*)mainWindow modalDelegate:(id)target {
 	[[self window] makeFirstResponder:mKeyBcaster];
-	
+	NSLog(@"showSheetForHotkey");
 	[self setKeyCombo: [hotKey keyCombo]];
 	[self setKeyBindingName: [hotKey name]];
 	
