@@ -143,17 +143,25 @@ static size_t EstimatedCharCountForWidth(float upToWidth) {
 
 - (NSAttributedString*)attributedMultiLinePreviewFromBodyText:(NSAttributedString*)bodyText upToWidth:(float)upToWidth intrusionWidth:(float)intWidth {
 	//first line is title, truncated to a shorter width to account for date/time, using a negative -[NSMutableParagraphStyle setTailIndent:] value
-	//next "two" lines are wrapped body text, with a character-count estimation of essentially double that of a single-line preview
+	//next line is wrapped body text
 	//also with an independent tailindent to account for a separately-drawn tags-string, if tags exist
 	//upToWidth will be used to manually truncate note-bodies only, and should be the full column width available
 	//intWidth will typically be the width of the tags string or other representation
 	
-	size_t bodyCharCount = (EstimatedCharCountForWidth(upToWidth) * 2) - EstimatedCharCountForWidth(intWidth);
+	size_t bodyCharCount = 2 * EstimatedCharCountForWidth(upToWidth) - EstimatedCharCountForWidth(intWidth);
 	bodyCharCount = MIN(bodyCharCount, [bodyText length]);
 	
 	NSMutableString *unattributedPreview = [[NSMutableString alloc] initWithCapacity:bodyCharCount + [self length] + 2];
 	
-	NSString *truncatedBodyString = [[bodyText string] truncatedPreviewStringOfLength:bodyCharCount];
+    // extract the first line
+    NSMutableString *previewString;
+	NSString *truncatedBodyString;
+    NSScanner *scanner = [NSScanner scannerWithString:[bodyText string]];
+    if ([scanner scanUpToString:@"\n" intoString:&previewString]) {
+        truncatedBodyString = previewString;
+    } else {
+        truncatedBodyString = [[bodyText string] truncatedPreviewStringOfLength:bodyCharCount];
+    }
 	if (!truncatedBodyString) return nil;
 	
 	[unattributedPreview appendString:self];

@@ -267,7 +267,9 @@ DefColAttrAccessor(dateCreatedStringOfNote, dateCreatedString)
 DefColAttrAccessor(dateModifiedStringOfNote, dateModifiedString)
 
 force_inline id tableTitleOfNote(NotesTableView *tv, NoteObject *note, NSInteger row) {
-	if (note->tableTitleString) return note->tableTitleString;
+	if (note->tableTitleString) {
+        return note->tableTitleString;
+    }
 	return titleOfNote(note);
 }
 force_inline id properlyHighlightingTableTitleOfNote(NotesTableView *tv, NoteObject *note, NSInteger row) {
@@ -276,7 +278,7 @@ force_inline id properlyHighlightingTableTitleOfNote(NotesTableView *tv, NoteObj
 			return [note->tableTitleString string];
 		}
 		return note->tableTitleString;
-	}	
+	}
 	return titleOfNote(note);
 }
 
@@ -291,7 +293,6 @@ force_inline id labelColumnCellForNote(NotesTableView *tv, NoteObject *note, NSI
 force_inline id unifiedCellSingleLineForNote(NotesTableView *tv, NoteObject *note, NSInteger row) {
 	
 	id obj = note->tableTitleString ? (id)note->tableTitleString : (id)titleOfNote(note);
-	
 	UnifiedCell *cell = [[[tv tableColumns] objectAtIndex:0] dataCellForRow:row];
 	[cell setNoteObject:note];
 	[cell setPreviewIsHidden:YES];
@@ -312,8 +313,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 	
 	id obj = note->tableTitleString ? (rowSelected ? (id)AttributedStringForSelection(note->tableTitleString, drawShadow) : 
 									   (id)note->tableTitleString) : (id)titleOfNote(note);
-	
-	
+
 	return obj;
 }
 
@@ -721,9 +721,10 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 	if ([prefs tableColumnsShowPreview]) {
 		if ([prefs horizontalLayout]) {
 			//is called for visible notes at launch and resize only, generation of images for invisible notes is delayed until after launch
-			
+
 			NSSize labelBlockSize = ColumnIsSet(NoteLabelsColumn, [prefs tableColumnsBitmap]) ? [self sizeOfLabelBlocks] : NSZeroSize;
-			tableTitleString = [[titleString attributedMultiLinePreviewFromBodyText:contentString upToWidth:[delegate titleColumnWidth] 
+			tableTitleString = [[titleString attributedMultiLinePreviewFromBodyText:contentString
+                                                                          upToWidth:[delegate titleColumnWidth]
 																	 intrusionWidth:labelBlockSize.width] retain];
 		} else {
 			tableTitleString = [[titleString attributedSingleLinePreviewFromBodyText:contentString upToWidth:[delegate titleColumnWidth]] retain];

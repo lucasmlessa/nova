@@ -1434,9 +1434,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* Notation */ = {
+		8D1107260486CEB800E47090 /* Nova */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 212B842309780B5000F3597F /* Build configuration list for PBXNativeTarget "Notation" */;
+			buildConfigurationList = 212B842309780B5000F3597F /* Build configuration list for PBXNativeTarget "Nova" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -1448,7 +1448,7 @@
 			);
 			dependencies = (
 			);
-			name = Notation;
+			name = Nova;
 			productInstallPath = "$(HOME)/Applications";
 			productName = Notation;
 			productReference = 8D1107320486CEB800E47090 /* nvALT.app */;
@@ -1484,7 +1484,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* Notation */,
+				8D1107260486CEB800E47090 /* Nova */,
 			);
 		};
 /* End PBXProject section */
@@ -2214,6 +2214,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = Nova;
 				SDKROOT = macosx10.7;
 			};
 			name = Development;
@@ -2285,11 +2286,11 @@
 					"-whatsloaded",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
-				PRODUCT_NAME = nvALT;
+				PRODUCT_NAME = Nova;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.7;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VERSION_INFO_BUILDER = ElasticThreads;
+				VERSION_INFO_BUILDER = Kyrigroup;
 				WARNING_LDFLAGS = "-pg";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -2352,7 +2353,7 @@
 				INFOPLIST_FILE = Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
-				PRODUCT_NAME = nvALT;
+				PRODUCT_NAME = Nova;
 				SDKROOT = macosx10.7;
 				SECTORDER_FLAGS = (
 					"-sectorder",
@@ -2362,7 +2363,7 @@
 					"-e",
 					start,
 				);
-				VERSION_INFO_BUILDER = ElasticThreads;
+				VERSION_INFO_BUILDER = Kyrigroup;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -2373,6 +2374,7 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = Nova;
 				SDKROOT = macosx10.7;
 			};
 			name = ForBuilding;
@@ -2380,7 +2382,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		212B842309780B5000F3597F /* Build configuration list for PBXNativeTarget "Notation" */ = {
+		212B842309780B5000F3597F /* Build configuration list for PBXNativeTarget "Nova" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C9CB58C134A7F0400073277 /* ForBuilding */,

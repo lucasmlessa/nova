@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D1107260486CEB800E47090"
-               BuildableName = "nvALT.app"
-               BlueprintName = "Notation"
+               BuildableName = "Nova.app"
+               BlueprintName = "Nova"
                ReferencedContainer = "container:Notation.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D1107260486CEB800E47090"
-            BuildableName = "nvALT.app"
-            BlueprintName = "Notation"
+            BuildableName = "Nova.app"
+            BlueprintName = "Nova"
             ReferencedContainer = "container:Notation.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D1107260486CEB800E47090"
-            BuildableName = "nvALT.app"
-            BlueprintName = "Notation"
+            BuildableName = "Nova.app"
+            BlueprintName = "Nova"
             ReferencedContainer = "container:Notation.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

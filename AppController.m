@@ -2561,7 +2561,7 @@ terminateApp:
     }
     //        [[NSUserDefaults standardUserDefaults] setBool:!isVis forKey:@"ToolbarHidden"];
     if (isVis) {
-        [window setTitle:@"nvALT"];
+        [window setTitle:@"Nova"];
         if (currentNote&&(![[field stringValue]isEqualToString:titleOfNote(currentNote)]))
             [field setStringValue:titleOfNote(currentNote)];
         
