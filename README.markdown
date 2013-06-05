@@ -1,42 +1,32 @@
-# nvALT 2
+# Nova
 
-A collaboration between Brett Terpstra (ttscoff) and David Halter (ElasticThreads) based on [DivineDominion's](github.com/divineDominion/nv) fork. nvALT adds a few features we'd been looking for (and let me get some coding practice).
+Nova is a fork of Notational Velocity based on Brett Terpstra's [nvALT][nvalt]. It includes a few additional features for tracking large numbers of projects by aggregating tags and tasks.
 
-![Screenshot](http://img.skitch.com/20110520-k5y4i6i3p8ciftq2dbs7rx64e7.jpg)
+[Notational Velocity][notational] is a way to take notes quickly and effortlessly using just your keyboard. You press a shortcut to bring up the window and just start typing. It will begin searching existing notes, filtering them as you type. You can use &#x2318;-J and &#x2318;-K to move through the list. Enter selects and begins editing. If you're creating a new note, you just type a unique title and press enter to move the cursor into a blank edit area.
 
-## About nvALT
+## Changes and Additional Features
 
-nvALT is a fork of the original [Notational Velocity][notational] with some additional features and some interface modifications. It is a work in progress. I'm not listing it as a beta, as that would imply that it was on its way to being its own product. It's an experiment, and I hope you enjoy it!
+* Do not refocus search bar when using hotkey to toggle window visibility.
+* Display only the first line of each note in previews.
+* Highlight lines containing @todo in red.
+* @todo: Aggregate the number of todo tags in each note in the note listing.
+* @todo: Aggregate todo items in the home screen when no note is selected.
+* @todo: Highlight tags of the form /special/ in black, without slashes.
+* @todo: When sorted by tag, list notes with /special/ tags first.
 
-## What it is
+## Building
 
-Notational Velocity is a way to take notes quickly and effortlessly using just your keyboard. You press a shortcut to bring up the window and just start typing. It will begin searching existing notes, filtering them as you type. You can use &#x2318;-J and &#x2318;-K to move through the list. Enter selects and begins editing. If you're creating a new note, you just type a unique title and press enter to move the cursor into a blank edit area. Check out the descriptions at [notational.net][notational] for a more eloquent synopsis.
-
-## Additional Features
-
-nvALT adds:
-
-* Widescreen (horizontal) layout option
-* Shortcut (&#x2318;-&#x2325;-N) to collapse the notes panel
-* Markdown, Textile and MultiMarkdown support with Preview window
-* HTML source code tab in the Preview window for fast copy/paste to blogs, etc.
-* Unique interface design changes
-* Fixes for a couple of bugs/annoyances
-* Customizable HTML and CSS files for the Preview window
-	* You can use Javascript in the templates to do a few neat tricks
-
-## Customization
-
-After the first time you run the Preview window, look in `~/Library/Application Support/Notational Velocity` and you'll find two files:` template.html` and `custom.css`. If you're handy with HTML and CSS, feel free to customize these in whatever way you like. You can add Javascript as well, but you'll need to load external scripts from a url or using a full file:// path. If worst comes to worst, you can just delete or rename your customizations and the default files will be put back in place automatically.
-
+Nova is not built with code signing, so you should be able to build out of the box. For Simplenote synchronization, follow the instructions in SimperiumConfig-example.h to obtain an API key.
 
 ## Credits
 
+* [nvALT 2][nvalt]
 * [Notational Velocity][notational]
 * Code: The original Notational Velocity [source code][original source] by Zachary Schneirov
 * Code: DivineDominion's [MultiMarkdown fork][DivineDominion]
 * Inspiration: [Elastic Threads' version](http://elasticthreads.tumblr.com/nv) of Notational Velocity
 
+[nvalt]: http://brettterpstra.com/projects/nvalt/
 [notational]: http://notational.net/
 [original source]: https://github.com/scrod/nv
 [DivineDominion]: https://github.com/DivineDominion/nv
