@@ -1591,9 +1591,9 @@ cancelCompetion:
 	//-removeAttribute:range: seems slow for some reason; try checking with -attributesAtIndex:effectiveRange: first
 	if ([[self textStorage] attribute:NSLinkAttributeName existsInRange:changedRange])
 		[[self textStorage] removeAttribute:NSLinkAttributeName range:changedRange];
-	[[self textStorage] addLinkAttributesForRange:changedRange];
-	
+	[[self textStorage] addLinkAttributesForRange:changedRange];	
 	[[self textStorage] addStrikethroughNearDoneTagsForRange:changedRange];
+	[[self textStorage] addColorNearTodoTagsForRange:changedRange];
 	
 	if (!isAutocompleting && !wasDeleting && [prefsController linksAutoSuggested] && 
 		![[self undoManager] isUndoing] && ![[self undoManager] isRedoing]) {

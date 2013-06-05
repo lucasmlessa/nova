@@ -22,8 +22,8 @@
 #import "NSString_NV.h"
 #import <AutoHyperlinks/AutoHyperlinks.h>
 
-
 NSString *NVHiddenDoneTagAttributeName = @"NVDoneTag";
+NSString *NVHiddenTodoTagAttributeName = @"NVTodoTag";
 NSString *NVHiddenBulletIndentAttributeName = @"NVBulletIndentTag";
 
 static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange);
@@ -119,6 +119,7 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 	[self restyleTextToFont:[[GlobalPrefs defaultPrefs] noteBodyFont] usingBaseFont:nil];
 	[self addLinkAttributesForRange:range];
 	[self addStrikethroughNearDoneTagsForRange:range];
+	[self addColorNearTodoTagsForRange:range];
 }
 
 - (BOOL)restyleTextToFont:(NSFont*)currentFont usingBaseFont:(NSFont*)baseFont {
@@ -320,7 +321,7 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 	
 	if (![[GlobalPrefs defaultPrefs] autoFormatsDoneTag])
 		return;
-		
+    
 	NSString *doneTag = @" @done";
 	NSCharacterSet *newlineSet = [NSCharacterSet newlineCharacterSet];
 	
@@ -352,6 +353,63 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 				//assume that this line was previously struck-through by NV due to the presence of a @done tag; remove those attrs now
 				[self removeAttribute:NVHiddenDoneTagAttributeName range:thisLineRange];
 				[self removeAttribute:NSStrikethroughStyleAttributeName range:thisLineRange];
+			}
+			//if scanRange has a non-zero length, then advance it further
+			if ((scanRange = NSMakeRange(NSMaxRange(thisLineRange), changedRange.length - (NSMaxRange(thisLineRange) - changedRange.location))).length)
+				scanRange = NSMakeRange(scanRange.location + 1, scanRange.length - 1);
+			else {
+				break;
+			}
+		} while (NSMaxRange(scanRange) <= NSMaxRange(changedRange));
+	}
+	@catch (NSException *e) {
+		NSLog(@"_%s(%@): %@", _cmd, NSStringFromRange(changedRange), e);
+	}
+}
+
+- (void)addColorNearTodoTagsForRange:(NSRange)changedRange {
+	//scan line by line
+	//if the line ends in " @todo", then strikethrough everything prior and add NVHiddenDoneTagAttributeName
+	//if the line doesn't end in " @todo", and it has NVHiddenTodoTagAttributeName + NSForegroundColorAttributeName,
+	//  then remove both attributes
+	//all other NSForegroundColorAttributeName by itself will be ignored
+	
+	if (![[GlobalPrefs defaultPrefs] autoFormatsDoneTag])
+		return;
+    
+	NSString *doneTag = @" @todo";
+	NSCharacterSet *newlineSet = [NSCharacterSet newlineCharacterSet];
+	
+	NSRange lineEndRange, scanRange = changedRange;
+	
+	@try {
+		do {
+			if ((lineEndRange = [[self string] rangeOfCharacterFromSet:newlineSet options:NSLiteralSearch range:scanRange]).location == NSNotFound) {
+				//no newline; this is the end of the range, so set line-end to an imaginary position there
+				lineEndRange = NSMakeRange(NSMaxRange(scanRange), 1);
+			}
+			
+			NSRange thisLineRange = NSMakeRange(scanRange.location, lineEndRange.location - scanRange.location);
+			
+			//this detection is improved. Handles @todo mid line, allowing @todo(date) or @todo - date
+            NSRange doneTagFound = [[[self string] substringWithRange:thisLineRange] rangeOfString:doneTag];
+			if (doneTagFound.location != NSNotFound) {
+                
+				//add color and NVHiddenTodoTagAttributeName attributes, because this line contains @todo
+				[self addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor redColor],
+									 NSForegroundColorAttributeName, [NSNull null], NVHiddenTodoTagAttributeName, nil]
+							  range:NSMakeRange(thisLineRange.location, doneTagFound.location)];
+                
+				//highlight the todo tag itself as well
+				[self addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor redColor],
+									 NSForegroundColorAttributeName, [NSNull null], NVHiddenTodoTagAttributeName, nil]
+							  range:NSMakeRange(thisLineRange.location + doneTagFound.location, NSMaxRange(thisLineRange) - (thisLineRange.location + doneTagFound.location)) ];
+				
+			} else if ([self attribute:NVHiddenTodoTagAttributeName existsInRange:thisLineRange]) {
+				
+				//assume that this line was previously struck-through by NV due to the presence of a @todo tag; remove those attrs now
+				[self removeAttribute:NVHiddenTodoTagAttributeName range:thisLineRange];
+				[self removeAttribute:NSForegroundColorAttributeName range:thisLineRange];
 			}
 			//if scanRange has a non-zero length, then advance it further
 			if ((scanRange = NSMakeRange(NSMaxRange(thisLineRange), changedRange.length - (NSMaxRange(thisLineRange) - changedRange.location))).length)

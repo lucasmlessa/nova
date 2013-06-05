@@ -21,6 +21,7 @@
 #define SEPARATE_ATTRS 0
 
 extern NSString *NVHiddenDoneTagAttributeName;
+extern NSString *NVHiddenTodoTagAttributeName;
 extern NSString *NVHiddenBulletIndentAttributeName;
 
 @interface NSMutableAttributedString (AttributedPlainText)
@@ -39,6 +40,7 @@ extern NSString *NVHiddenBulletIndentAttributeName;
 - (void)addLinkAttributesForRange:(NSRange)changedRange;
 - (void)_addDoubleBracketedNVLinkAttributesForRange:(NSRange)changedRange;
 - (void)addStrikethroughNearDoneTagsForRange:(NSRange)changedRange;
+- (void)addColorNearTodoTagsForRange:(NSRange)changedRange;
 - (BOOL)restyleTextToFont:(NSFont*)currentFont usingBaseFont:(NSFont*)baseFont;
 
 @end
