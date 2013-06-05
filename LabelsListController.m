@@ -121,6 +121,23 @@ static CGRect NSRectToCGRect(NSRect nsrect) {
 	NSString *imgKey = [[aWord lowercaseString] stringByAppendingFormat:@", %d", isHighlighted];
 	NSImage *img = [labelImages objectForKey:imgKey];
 	if (!img) {
+        
+        //display /tags/ in black
+        //TODO display @people and #topics with icons
+        NSColor *fillColor;
+        if ([aWord hasPrefix:@"/"] && [aWord hasSuffix:@"/"] && [aWord length] > 2) {
+            aWord = [aWord substringWithRange:NSMakeRange(1, [aWord length] - 2)];
+            fillColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+        } else if ([aWord hasPrefix:@"@"] && [aWord length] > 1) {
+            aWord = [aWord substringWithRange:NSMakeRange(1, [aWord length] - 1)];
+            fillColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+        } else if ([aWord hasPrefix:@"#"] && [aWord length] > 1) {
+            aWord = [aWord substringWithRange:NSMakeRange(1, [aWord length] - 1)];
+            fillColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
+        } else {
+            fillColor = [NSColor colorWithCalibratedWhite:0.55 alpha:1.0];
+        }
+        
 		//generate the image and add it to labelImages under imgKey
 		float tableFontSize = [[GlobalPrefs defaultPrefs] tableFontSize] - 1.0;
 		NSDictionary *attrs = [NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:tableFontSize] forKey:NSFontAttributeName];
@@ -139,7 +156,7 @@ static CGRect NSRectToCGRect(NSRect nsrect) {
 		CGContextClipToRect(context, NSRectToCGRect(wordRect));
 
 		NSBezierPath *backgroundPath = [NSBezierPath bezierPathWithRoundRectInRect:wordRect radius:2.0f];
-		[(isHighlighted ? [NSColor whiteColor] : [NSColor colorWithCalibratedWhite:0.55 alpha:1.0]) setFill];
+		[(isHighlighted ? [NSColor whiteColor] : fillColor) setFill];
 		[backgroundPath fill];
 		
 		[[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeSourceOut];

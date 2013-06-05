@@ -369,7 +369,7 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 
 - (void)addColorNearTodoTagsForRange:(NSRange)changedRange {
 	//scan line by line
-	//if the line ends in " @todo", then strikethrough everything prior and add NVHiddenDoneTagAttributeName
+	//if the line ends in " @todo", then color the line and add NVHiddenTodoTagAttributeName
 	//if the line doesn't end in " @todo", and it has NVHiddenTodoTagAttributeName + NSForegroundColorAttributeName,
 	//  then remove both attributes
 	//all other NSForegroundColorAttributeName by itself will be ignored
@@ -407,7 +407,7 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 				
 			} else if ([self attribute:NVHiddenTodoTagAttributeName existsInRange:thisLineRange]) {
 				
-				//assume that this line was previously struck-through by NV due to the presence of a @todo tag; remove those attrs now
+				//assume that this line was previously colored by NV due to the presence of a @todo tag; remove those attrs now
 				[self removeAttribute:NVHiddenTodoTagAttributeName range:thisLineRange];
 				[self removeAttribute:NSForegroundColorAttributeName range:thisLineRange];
 			}

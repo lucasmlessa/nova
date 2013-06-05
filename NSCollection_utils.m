@@ -43,14 +43,18 @@
 @implementation NSMutableDictionary (FontTraits)
 
 - (void)addDesiredAttributesFromDictionary:(NSDictionary*)dict {
+    id colorizetodoStyle = [dict objectForKey:NSForegroundColorAttributeName];
 	id strikethroughStyle = [dict objectForKey:NSStrikethroughStyleAttributeName];
 	id hiddenDoneTagStyle = [dict objectForKey:NVHiddenDoneTagAttributeName];
+    id hiddenTodoTagStyle = [dict objectForKey:NVHiddenTodoTagAttributeName];
 	id strokeWidthStyle = [dict objectForKey:NSStrokeWidthAttributeName];
 	id obliquenessStyle = [dict objectForKey:NSObliquenessAttributeName];
 	id linkStyle = [dict objectForKey:NSLinkAttributeName];
 	
 	if (linkStyle)
 		[self setObject:linkStyle forKey:NSLinkAttributeName];
+	if (colorizetodoStyle)
+		[self setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
 	if (strikethroughStyle)
 		[self setObject:[NSNumber numberWithInt:NSUnderlineStyleSingle] forKey:NSStrikethroughStyleAttributeName];
 	if (strokeWidthStyle)
@@ -59,6 +63,8 @@
 		[self setObject:obliquenessStyle forKey:NSObliquenessAttributeName];
 	if (hiddenDoneTagStyle)
 		[self setObject:hiddenDoneTagStyle forKey:NVHiddenDoneTagAttributeName];
+	if (hiddenTodoTagStyle)
+		[self setObject:hiddenTodoTagStyle forKey:NVHiddenTodoTagAttributeName];
 }
 
 - (void)applyStyleInverted:(BOOL)opposite trait:(NSFontTraitMask)trait forFont:(NSFont*)font 

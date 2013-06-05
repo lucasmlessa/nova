@@ -11,7 +11,7 @@ Nova is a fork of Notational Velocity based on Brett Terpstra's [nvALT][nvalt]. 
 * Highlight lines containing @todo in red.
 * @todo: Aggregate the number of todo tags in each note in the note listing.
 * @todo: Aggregate todo items in the home screen when no note is selected.
-* @todo: Highlight tags of the form /special/ in black, without slashes.
+* Highlight /special/ tags in black, without displaying slashes.
 * @todo: When sorted by tag, list notes with /special/ tags first.
 
 ## Building
