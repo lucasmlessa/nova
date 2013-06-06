@@ -510,7 +510,9 @@ void outletObjectAwoke(id sender) {
 	
 	[self performSelector:@selector(runDelayedUIActionsAfterLaunch) withObject:nil afterDelay:0.0];
     
-	
+    //keep window waaay on top
+    [window setLevel:kCGMainMenuWindowLevel-1];
+    [window setCollectionBehavior:NSWindowCollectionBehaviorStationary|NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorFullScreenAuxiliary];
     
 	return;
 terminateApp:
@@ -951,6 +953,9 @@ terminateApp:
         }else{
             linkingFrame.origin=[window convertBaseToScreen:linkingFrame.origin];
         }
+        //keep window on top
+        [window setLevel:NSFloatingWindowLevel];
+
         NSPoint cPoint=NSMakePoint(NSMidX(linkingFrame), NSMaxY(linkingFrame));
         
         //Multiple Notes selected, use ElasticThreads' multitagging implementation
