@@ -189,13 +189,16 @@ NSInteger compareDateCreated(id *a, id *b) {
     return (*(NoteObject**)a)->createdDate - (*(NoteObject**)b)->createdDate;
 }
 NSInteger compareLabelString(id *a, id *b) {    
-    return (NSInteger)CFStringCompare((CFStringRef)(labelsOfNote(*(NoteObject **)a)), 
-								(CFStringRef)(labelsOfNote(*(NoteObject **)b)), kCFCompareCaseInsensitive);
+    NSString* labelStringA = labelsOfNote(*(NoteObject **)a);
+    NSString* labelStringB = labelsOfNote(*(NoteObject **)b);
+    NSString* sortedLabelStringA = [[[labelStringA labelCompatibleWords] sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@" "];
+    NSString* sortedLabelStringB = [[[labelStringB labelCompatibleWords] sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@" "];
+    return (NSInteger)[sortedLabelStringA compare:sortedLabelStringB options:NSCaseInsensitiveSearch];
 }
 NSInteger compareTitleString(id *a, id *b) {
 	//add kCFCompareNumerically to options for natural order sort
-    CFComparisonResult stringResult = CFStringCompare((CFStringRef)(titleOfNote(*(NoteObject**)a)), 
-													  (CFStringRef)(titleOfNote(*(NoteObject**)b)), 
+    CFComparisonResult stringResult = CFStringCompare((CFStringRef)(titleOfNote(*(NoteObject**)a)),
+													  (CFStringRef)(titleOfNote(*(NoteObject**)b)),
 													  kCFCompareCaseInsensitive);
 	if (stringResult == kCFCompareEqualTo) {
 		
@@ -219,13 +222,16 @@ NSInteger compareDateModifiedReverse(id *a, id *b) {
 NSInteger compareDateCreatedReverse(id *a, id *b) {
     return (*(NoteObject**)b)->createdDate - (*(NoteObject**)a)->createdDate;
 }
-NSInteger compareLabelStringReverse(id *a, id *b) {    
-    return (NSInteger)CFStringCompare((CFStringRef)(labelsOfNote(*(NoteObject **)b)), 
-								(CFStringRef)(labelsOfNote(*(NoteObject **)a)), kCFCompareCaseInsensitive);
+NSInteger compareLabelStringReverse(id *a, id *b) {
+    NSString* labelStringA = labelsOfNote(*(NoteObject **)a);
+    NSString* labelStringB = labelsOfNote(*(NoteObject **)b);
+    NSString* sortedLabelStringA = [[[labelStringA labelCompatibleWords] sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@" "];
+    NSString* sortedLabelStringB = [[[labelStringB labelCompatibleWords] sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@" "];
+    return (NSInteger)[sortedLabelStringB compare:sortedLabelStringA options:NSCaseInsensitiveSearch];
 }
 NSInteger compareTitleStringReverse(id *a, id *b) {
-    CFComparisonResult stringResult = CFStringCompare((CFStringRef)(titleOfNote(*(NoteObject **)b)), 
-													  (CFStringRef)(titleOfNote(*(NoteObject **)a)), 
+    CFComparisonResult stringResult = CFStringCompare((CFStringRef)(titleOfNote(*(NoteObject **)b)),
+													  (CFStringRef)(titleOfNote(*(NoteObject **)a)),
 													  kCFCompareCaseInsensitive);
 	
 	if (stringResult == kCFCompareEqualTo) {
@@ -235,9 +241,8 @@ NSInteger compareTitleStringReverse(id *a, id *b) {
 		
 		return dateResult;
 	}
-	return (NSInteger)stringResult;	
+	return (NSInteger)stringResult;
 }
-
 NSInteger compareNodeID(id *a, id *b) {
     return fileNodeIDOfNote(*(NoteObject**)a) - fileNodeIDOfNote(*(NoteObject**)b);
 }
@@ -1017,7 +1022,8 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 
 
 - (NSArray*)orderedLabelTitles {
-	return [labelString labelCompatibleWords];
+    NSArray* labelTitles = [labelString labelCompatibleWords];
+	return [labelTitles sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (NSSize)sizeOfLabelBlocks {

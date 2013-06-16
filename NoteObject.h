@@ -91,7 +91,6 @@ NSInteger compareLabelString(id *a, id *b);
 NSInteger compareTitleString(id *a, id *b);
 NSInteger compareUniqueNoteIDBytes(id *a, id *b);
 
-
 NSInteger compareDateModifiedReverse(id *a, id *b);
 NSInteger compareDateCreatedReverse(id *a, id *b);
 NSInteger compareLabelStringReverse(id *a, id *b);

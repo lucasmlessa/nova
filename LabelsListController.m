@@ -122,16 +122,9 @@ static CGRect NSRectToCGRect(NSRect nsrect) {
 	NSImage *img = [labelImages objectForKey:imgKey];
 	if (!img) {
         
-        //display /tags/ in black
-        //TODO display @people and #topics with icons
+        //display *important tags in black
         NSColor *fillColor;
-        if ([aWord hasPrefix:@"/"] && [aWord hasSuffix:@"/"] && [aWord length] > 2) {
-            aWord = [aWord substringWithRange:NSMakeRange(1, [aWord length] - 2)];
-            fillColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
-        } else if ([aWord hasPrefix:@"@"] && [aWord length] > 1) {
-            aWord = [aWord substringWithRange:NSMakeRange(1, [aWord length] - 1)];
-            fillColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
-        } else if ([aWord hasPrefix:@"#"] && [aWord length] > 1) {
+        if ([aWord hasPrefix:@"*"] && [aWord length] > 1) {
             aWord = [aWord substringWithRange:NSMakeRange(1, [aWord length] - 1)];
             fillColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
         } else {
