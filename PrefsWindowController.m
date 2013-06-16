@@ -51,6 +51,9 @@
 	if (![window isVisible])
 		[window center];
 	
+    //keep window waaay on top
+    [window setLevel:kCGMainMenuWindowLevel-1];
+    [window setCollectionBehavior:NSWindowCollectionBehaviorStationary|NSWindowCollectionBehaviorCanJoinAllSpaces|NSWindowCollectionBehaviorFullScreenAuxiliary];
 	[window makeKeyAndOrderFront:self];
 }
 
