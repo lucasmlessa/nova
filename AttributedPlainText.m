@@ -396,20 +396,20 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 			if (doneTagFound.location != NSNotFound) {
                 
 				//add color and NVHiddenTodoTagAttributeName attributes, because this line contains @todo
-				[self addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor redColor],
-									 NSForegroundColorAttributeName, [NSNull null], NVHiddenTodoTagAttributeName, nil]
+				[self addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor yellowColor],
+									 NSBackgroundColorAttributeName, [NSNull null], NVHiddenTodoTagAttributeName, nil]
 							  range:NSMakeRange(thisLineRange.location, doneTagFound.location)];
                 
 				//highlight the todo tag itself as well
-				[self addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor redColor],
-									 NSForegroundColorAttributeName, [NSNull null], NVHiddenTodoTagAttributeName, nil]
+				[self addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor yellowColor],
+									 NSBackgroundColorAttributeName, [NSNull null], NVHiddenTodoTagAttributeName, nil]
 							  range:NSMakeRange(thisLineRange.location + doneTagFound.location, NSMaxRange(thisLineRange) - (thisLineRange.location + doneTagFound.location)) ];
 				
 			} else if ([self attribute:NVHiddenTodoTagAttributeName existsInRange:thisLineRange]) {
 				
 				//assume that this line was previously colored by NV due to the presence of a @todo tag; remove those attrs now
 				[self removeAttribute:NVHiddenTodoTagAttributeName range:thisLineRange];
-				[self removeAttribute:NSForegroundColorAttributeName range:thisLineRange];
+				[self removeAttribute:NSBackgroundColorAttributeName range:thisLineRange];
 			}
 			//if scanRange has a non-zero length, then advance it further
 			if ((scanRange = NSMakeRange(NSMaxRange(thisLineRange), changedRange.length - (NSMaxRange(thisLineRange) - changedRange.location))).length)

@@ -8,7 +8,7 @@ Nova is a fork of Notational Velocity based on Brett Terpstra's [nvALT][nvalt]. 
 
 * Do not refocus search bar when using hotkey to toggle window visibility.
 * Display only the first line of each note in previews.
-* Highlight lines containing @todo in red.
+* Highlight lines containing @todo in yellow.
 * Highlight *special tags in black.
 * When sorted by tag, list notes with *special tags first.
 * @todo: Aggregate the number of todo tags in each note in the note listing.
