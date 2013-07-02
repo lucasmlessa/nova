@@ -938,7 +938,6 @@ copyRTFType:
 		
 		unichar keyChar = [anEvent firstCharacterIgnoringModifiers];
 		if (keyChar == NSCarriageReturnCharacter || keyChar == NSNewlineCharacter || keyChar == NSEnterCharacter) {
-		//	NSLog(@"insertion");
 			unsigned charIndex = [self selectedRange].location;
 			
 			id aLink = [self highlightLinkAtIndex:charIndex];
@@ -961,7 +960,7 @@ copyRTFType:
 				[self doCommandBySelector:@selector(deleteToBeginningOfLine:)];
 				return YES;
 			}
-		}else if ([[NSUserDefaults standardUserDefaults]boolForKey:@"UsesMarkdownCompletions"]){        
+		}else if ([[NSUserDefaults standardUserDefaults]boolForKey:@"UsesMarkdownCompletions"]){
             NSString *firstChar=[NSString stringWithCharacters:&keyChar length:1]; 
             if ([firstChar isEqualToString:@"<"]) {
                 [self removeStringAtStartOfSelectedParagraphs:@">"];
@@ -971,16 +970,20 @@ copyRTFType:
                 [self insertStringAtStartOfSelectedParagraphs:@">"];
                 return YES;
                 //            NSLog(@"cmd-shift->");   
-            }else if (([firstChar isEqualToString:@"+"])||([firstChar isEqualToString:@"="])){ 
+            }else if (([firstChar isEqualToString:@"+"])||([firstChar isEqualToString:@"="])){
                 
                 [self insertStringAtStartOfSelectedParagraphs:@"#"];
                 return YES;
-                //            NSLog(@"cmd-shift-+");   
-            }else if (([firstChar isEqualToString:@"-"])||([firstChar isEqualToString:@"_"])){ 
+                //            NSLog(@"cmd-shift-+");
+            }else if (([firstChar isEqualToString:@"-"])||([firstChar isEqualToString:@"_"])){
                 [self removeStringAtStartOfSelectedParagraphs:@"#"];
                 return YES;
-                //            NSLog(@"cmd-shift-MINUS");   
-            } 
+                //            NSLog(@"cmd-shift-MINUS");
+            }else if (([firstChar isEqualToString:@"\\"])||([firstChar isEqualToString:@"|"])){
+                [self insertStringAtStartOfSelectedParagraphs:@"\n"];
+                return YES;
+                //            NSLog(@"cmd-shift-PIPE");
+            }
         }
 	}
 	
@@ -2533,7 +2536,7 @@ static long (*GetGetScriptManagerVariablePointer())(short) {
     if (actRange.location!=NSNotFound) {        
         NSString *actPar=[self activeParagraphTrimWS:NO];
         if (selRange.length==0) {
-            if ((![actPar hasPrefix:insertString])&&(![actPar hasPrefix:@" "])) {
+            if ((![actPar hasPrefix:insertString])&&(![actPar hasPrefix:@" "])&&(![insertString isEqualToString:@"\n"])) {
                 insertString=[insertString stringByAppendingString:@" "];
             }
             if ([self shouldChangeTextInRange:actRange replacementString:insertString]) {
@@ -2552,7 +2555,7 @@ static long (*GetGetScriptManagerVariablePointer())(short) {
             for (NSString *thisPar in paragraphArray) {                
                 if ([thisPar stringByTrimmingCharactersInSet:trimSet].length>0) {
                     replaceString=insertString;
-                    if ((![thisPar hasPrefix:replaceString])&&(![thisPar hasPrefix:@" "])) {
+                    if ((![thisPar hasPrefix:replaceString])&&(![thisPar hasPrefix:@" "])&&(![insertString isEqualToString:@"\n"])) {
                         replaceString=[replaceString stringByAppendingString:@" "];
                     }
                     NSRange thisRange=actRange;

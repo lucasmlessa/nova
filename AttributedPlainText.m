@@ -377,7 +377,6 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 	if (![[GlobalPrefs defaultPrefs] autoFormatsDoneTag])
 		return;
     
-	NSString *doneTag = @" @todo";
 	NSCharacterSet *newlineSet = [NSCharacterSet newlineCharacterSet];
 	
 	NSRange lineEndRange, scanRange = changedRange;
@@ -392,7 +391,10 @@ static BOOL _StringWithRangeIsProbablyObjC(NSString *string, NSRange blockRange)
 			NSRange thisLineRange = NSMakeRange(scanRange.location, lineEndRange.location - scanRange.location);
 			
 			//this detection is improved. Handles @todo mid line, allowing @todo(date) or @todo - date
-            NSRange doneTagFound = [[[self string] substringWithRange:thisLineRange] rangeOfString:doneTag];
+            NSRange doneTagFound = [[[self string] substringWithRange:thisLineRange] rangeOfString:@" @todo"];
+			if (doneTagFound.location == NSNotFound) {
+                doneTagFound = [[[self string] substringWithRange:thisLineRange] rangeOfString:@" @!"];
+            }
 			if (doneTagFound.location != NSNotFound) {
                 
 				//add color and NVHiddenTodoTagAttributeName attributes, because this line contains @todo
